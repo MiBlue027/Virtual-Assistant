@@ -1,0 +1,10 @@
+.message-error-1{
+    width: 100%;
+    padding: .8em 1.5em;
+    background: #ff4d4d;
+    border: .12em solid #a40e0e;
+}
+.message-error-1 p{
+    font-size: .8em;
+    color: #a40e0e;
+}

@@ -1,0 +1,97 @@
+.upload-form-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    max-width: 380px;
+    margin: 60px auto;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.upload-form-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.upload-form-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2d2d45;
+    margin-bottom: 1.5rem;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.upload-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    text-align: left;
+    margin-bottom: 0.5rem;
+}
+
+.upload-input {
+    display: block;
+    width: 100%;
+    font-size: 0.95rem;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.upload-input:hover {
+    border-color: #4b66ff;
+}
+.upload-input:focus {
+    outline: none;
+    border-color: #3a56e6;
+    box-shadow: 0 0 0 3px rgba(75, 102, 255, 0.2);
+}
+
+.upload-button {
+    background-color: #4b66ff;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.upload-button:hover {
+    background-color: #3a56e6;
+    transform: translateY(-2px);
+}
+.upload-button:active {
+    transform: scale(0.98);
+}
+
+.upload-message {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+.upload-message h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: #334;
+}
+
+.upload-message.success h1 {
+    background: #e6f9ee;
+    color: #0d7a3d;
+}
+.upload-message.error h1 {
+    background: #fdeaea;
+    color: #a62222;
+}

@@ -1,0 +1,17 @@
+.button-common-1{
+    width: 100%;
+    position: relative;
+    margin: .5em 0;
+    padding: 0.5em 1.2em;
+    background-color: #3862eb;
+    border: none;
+    border-radius: 0.25em;
+    font-weight: 550;
+    transition: .2s;
+    color: #e8effa;
+    cursor: pointer;
+}
+.button-common-1:hover{
+    background-color: #6f91ff;
+    box-shadow: 0 0 10px rgba(42, 60, 127, 0.42);
+}

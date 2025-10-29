@@ -1,0 +1,22 @@
+.wrapper-setting-1{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.container-common-1 {
+    padding: 2em;
+    background-color: #eaeffb;
+    border: solid .2em #739bff;
+    border-radius: 10px;
+    margin: .5em;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}

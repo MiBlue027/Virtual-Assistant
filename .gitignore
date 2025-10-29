@@ -1,0 +1,9 @@
+/database/migrations
+/log
+/node_modules
+/vendor
+
+/initiate/cache/config_cache.php
+
+.env
+.idea
