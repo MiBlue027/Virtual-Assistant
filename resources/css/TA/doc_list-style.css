@@ -1,0 +1,348 @@
+.docList-page {
+    min-height: 100vh;
+    background: #f8f9fb;
+    padding: 40px 60px;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.docList-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.docList-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+}
+
+.docList-btnUpload {
+    background-color: #1d72e8;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.docList-btnUpload:hover {
+    background-color: #1559b5;
+}
+
+/* Table */
+.docList-content {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.docList-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.docList-table thead {
+    background: #f1f3f8;
+}
+
+.docList-table td:nth-last-child(-n+2) {
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+.docList-table th,
+.docList-table td {
+    padding: 14px 18px;
+    text-align: left;
+}
+
+.docList-table th {
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.docList-table td {
+    border-bottom: 1px solid #eee;
+}
+
+.docList-table tbody tr:hover {
+    background-color: #f9fafc;
+}
+
+.docList-table td button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 3px 4px;
+}
+
+.docList-colNo {
+    width: 60px;
+    text-align: center;
+}
+.docList-colDocName{
+    width: 65%;
+}
+.docList-colAction {
+    text-align: center;
+    width: 140px;
+}
+
+.docList-empty {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 30px 0;
+}
+
+/* Buttons */
+.docList-btnDelete {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.docList-btnDelete:hover {
+    background-color: #d32f2f;
+}
+
+.docList-btnDownload {
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    display: inline-block;
+    min-width: 90px;
+}
+
+.docList-btnDownload:hover {
+    background-color: #1d4ed8;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+}
+
+.docList-btnDownload:active {
+    background-color: #1e40af;
+    transform: scale(0.98);
+}
+
+/* Modal */
+.docList-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.docList-modal.docList-show {
+    display: flex;
+}
+
+.docList-modalBox {
+    background: #fff;
+    padding: 28px 34px;
+    border-radius: 10px;
+    width: 380px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: docListFadeIn 0.25s ease;
+}
+
+@keyframes docListFadeIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.docList-modalTitle {
+    font-size: 1.3rem;
+    margin: 0 0 10px;
+}
+
+.docList-modalText {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.docList-modalActions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+}
+
+.docList-btnCancel,
+.docList-btnConfirm {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.docList-btnCancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.docList-btnCancel:hover {
+    background-color: #bbb;
+}
+
+.docList-btnConfirm {
+    background-color: #f44336;
+    color: white;
+}
+
+.docList-btnConfirm:hover {
+    background-color: #d32f2f;
+}
+
+
+@media (max-width: 768px) {
+    .docList-page {
+        padding: 20px;
+    }
+
+    .docList-modalBox {
+        width: 90%;
+    }
+
+    .docList-btnUpload {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* ===========================
+   Modal Notification Styling
+   =========================== */
+
+.docList-modalNotif {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.docList-modalNotif.docList-show {
+    display: flex;
+}
+
+.docList-modalNotifBox {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: docListFadeIn 0.25s ease;
+}
+
+.docList-modalNotifTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 10px;
+    color: #222;
+}
+
+.docList-modalNotifMessage {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.docList-modalNotifOk {
+    background-color: #1d72e8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.docList-modalNotifOk:hover {
+    background-color: #1559b5;
+}
+
+.docList-success .docList-modalNotifBox {
+    border-top: 5px solid #4CAF50;
+}
+
+.docList-error .docList-modalNotifBox {
+    border-top: 5px solid #f44336;
+}
+
+.docList-info .docList-modalNotifBox {
+    border-top: 5px solid #1d72e8;
+}
+
+
+/* ============================
+   Footer & Activate Button
+   ============================ */
+.docList-footer {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.docList-btnActivate {
+    background-color: #16a34a;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25);
+}
+
+.docList-btnActivate:hover {
+    background-color: #15803d;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.35);
+    transform: translateY(-1px);
+}
+
+.docList-btnActivate:active {
+    background-color: #166534;
+    transform: scale(0.98);
+}
+

@@ -1,12 +1,14 @@
 
 @import "global-style/global-style.css";
 
-@import "library/container/container-common-style.css";
-@import "library/button-collection/button-common-style.css";
-@import "library/input-collection/input-common-style.css";
-@import "library/message-box/message-box-style.css";
+/*@import "library/container/container-common-style.css";*/
+/*@import "library/button-collection/button-common-style.css";*/
+/*@import "library/input-collection/input-common-style.css";*/
+/*@import "library/message-box/message-box-style.css";*/
 
 @import "TA/upload-style.css";
+@import "TA/doc_list-style.css";
+@import "TA/login-style.css";
 
 @import "uic-style/uic_base_style.css";
 @import "uic-style/uic-data_grid.css";

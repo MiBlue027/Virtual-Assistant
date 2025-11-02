@@ -26,27 +26,23 @@ use UIC\UICPasswordInput\UICPasswordInput;
 
                 <div>
                     <label for="uicPass"> Password </label>
-                    <input type="text"
+                    <input type="password"
                            id="uicPass"
                            value="<?= $model['password'] ?? '' ?>"
                            name="password"
                            class="password_input-common-1"
                     >
                     <span class="spnIcon-dUicInputBox">
-                        <img src="<?php echo config("uic_config.icon_path") . "eye-off.svg" ?>"
+                        <img src="<?php echo config("general_config.icon_path") . "eye-off.svg" ?>"
                              alt="eye-outline.svg" class="ibPassShowHideJQ"
                              data-target="uicPass"
                              data-eye-show="eye.svg"
                              data-eye-hide="eye-off.svg"
-                             data-icon-path="<?php echo config("uic_config.icon_path") ?>"
+                             data-icon-path="<?php echo config("general_config.icon_path") ?>"
                         >
                     </span>
                 </div>
                 <?php
-
-
-//                $uicPasswordInput = new UicPasswordInput();
-//                $uicPasswordInput->Render(id: "uicPass", name: "password", value: $model['password'] ?? '', label: "Password", class: "password_input-common-1", errors: $errors);
             ?>
             <input type="submit" class="button-common-1" value="Login">
         </form>

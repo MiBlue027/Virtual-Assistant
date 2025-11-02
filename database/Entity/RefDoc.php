@@ -19,6 +19,8 @@ class RefDoc
     private int $refDocId;
     #[Column(name: "DOC_NAME", type: Types::STRING, length: 150, nullable: false)]
     private string $docName;
+    #[Column(name: "DOC_TYPE", type: Types::STRING, nullable: false)]
+    private string $docType;
     #[Column(name: "DOC_STAT", type: Types::STRING, length: 5, nullable: false)]
     private string $docStat;
     #[Column(name: "DOC_PATH", type: Types::STRING, length: 150, nullable: false)]
@@ -46,6 +48,16 @@ class RefDoc
     public function setDocName(string $docName): void
     {
         $this->docName = $docName;
+    }
+
+    public function getDocType(): string
+    {
+        return $this->docType;
+    }
+
+    public function setDocType(string $docType): void
+    {
+        $this->docType = $docType;
     }
 
     public function getDocStat(): string

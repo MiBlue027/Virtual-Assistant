@@ -20,6 +20,9 @@ Route::Add(RouteMethod::GET, RoutePath::N8N_CHAT_BOT_GET_STREAM_TTS, N8nControll
 
 Route::Add(RouteMethod::GET, "/va/upload", VirtualAssistantController::class, "upload_doc_view", [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, "/va/upload", VirtualAssistantController::class, "upload_doc", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::GET, "/va/knowledge/download", VirtualAssistantController::class, "download_doc", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::GET, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_view", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::POST, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_action", [MustAuthorizedMid::class]);
 
 #region USER_AUTHENTICATION_CTRL
 //login

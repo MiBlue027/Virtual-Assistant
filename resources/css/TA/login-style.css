@@ -1,0 +1,151 @@
+
+.wrapper-setting-1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('/src/asset/img/bg-machung.jpg') no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.wrapper-setting-1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    z-index: 0;
+}
+
+.container-common-1 {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 30em;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 1.2em;
+    padding: 3em 2.5em;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.35s ease;
+}
+
+.container-common-1:hover {
+    transform: translateY(-4px);
+}
+
+.container-common-1 h1 {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.2em;
+    letter-spacing: 0.5px;
+}
+
+.container-common-1 label {
+    display: block;
+    text-align: left;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.3em;
+}
+
+.input-common-1,
+.password_input-common-1 {
+    width: 100%;
+    padding: 0.9em 1em;
+    margin-bottom: 1.3em;
+    border-radius: 0.6em;
+    border: 1px solid #cbd5e1;
+    background-color: rgba(248, 250, 252, 0.9);
+    font-size: 1em;
+    color: #1e293b;
+    transition: all 0.25s ease;
+}
+
+.input-common-1:focus,
+.password_input-common-1:focus {
+    border-color: #2563eb;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+.spnIcon-dUicInputBox {
+    position: absolute;
+    right: 1.5em;
+    margin-top: -2.9em;
+    cursor: pointer;
+    width: 1.7em;
+    height: 1.7em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transition: background 0.3s, transform 0.2s;
+    z-index: 2;
+}
+
+.spnIcon-dUicInputBox:hover {
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(1.05);
+}
+
+.button-common-1 {
+    width: 100%;
+    padding: 0.9em;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    border: none;
+    border-radius: 0.6em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease;
+}
+
+.button-common-1:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+    transform: translateY(-2px);
+}
+
+.message-error-1 {
+    margin-top: 1em;
+    padding: 0.9em 1em;
+    border-radius: 0.6em;
+    background-color: rgba(254, 226, 226, 0.95);
+    border: 1px solid #f87171;
+    color: #991b1b;
+    font-weight: 600;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .container-common-1 {
+        width: 90%;
+        padding: 2em 1.5em;
+    }
+}
