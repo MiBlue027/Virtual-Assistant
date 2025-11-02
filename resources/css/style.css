@@ -9,7 +9,7 @@
 @import "TA/upload-style.css";
 @import "TA/doc_list-style.css";
 @import "TA/login-style.css";
+@import "TA/ai_agent-style.css";
+@import "TA/head_nav-style.css";
 
-@import "uic-style/uic_base_style.css";
-@import "uic-style/uic-data_grid.css";
-@import "uic-style/uic-password_input.css";
+

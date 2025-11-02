@@ -1,21 +1,25 @@
 <?php
 
-namespace Database\Repository\MiddlewareRepository;
+namespace Database\Repository\GeneralRepository;
 
 use Database\Entities\Users;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\Parameter;
 
-class AdminOnlyRepository
+class UsersRepository
 {
     private EntityManager $entityManager;
+
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
-    public function GetAdminByUserId(int $userId): array
+    public function GetUsersById(int $id): ?Users
+    {
+        return $this->entityManager->getRepository(Users::class)->findOneBy(["usersId" => $id]);
+    }
+
+    public function GetUsersAdminById(int $usersId)
     {
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select('u')
@@ -27,11 +31,11 @@ class AdminOnlyRepository
                 AND ru.refUserStat = :ruStatACT
                 AND r.roleCode != :roleCode
                 AND r.isAct = :isACT')
-            ->setParameter("usersId", $userId)
+            ->setParameter("usersId", $usersId)
             ->setParameter("ruStatACT", "ACT")
             ->setParameter("roleCode", "GST")
             ->setParameter("isACT", true);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

@@ -10,7 +10,7 @@ class MustUnauthorizedMid implements Middleware
     function before(): void
     {
         if (isset($_SESSION["usersId"])) {
-            redirect("/profile");
+            redirect("/home");
         }
     }
 }

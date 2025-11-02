@@ -2,10 +2,8 @@
 
 namespace App\Http\Middleware\Authorization;
 
-use App\Exception\AppException;
 use App\Interface\Middleware\Middleware;
 use Database\Repository\MiddlewareRepository\AdminOnlyRepository;
-use Path\RoutePath;
 
 class AdminOnlyMid implements Middleware
 {
@@ -16,14 +14,14 @@ class AdminOnlyMid implements Middleware
         $adminOlyRepository = new AdminOnlyRepository($entityManager);
 
         try {
-            $currentUser = get_access_token()->users_id;
+            $currentUser = $_SESSION["usersId"];
             $admin = $adminOlyRepository->GetAdminByUserId($currentUser);
             if ($admin == null){
                 http_response_code(404);
-                redirect(RoutePath::EXCEPTION_PAGE_NOT_FOUND);
+                redirect("/404");
             }
-        } catch (AppException $e) {
-            redirect(RoutePath::EXCEPTION_PAGE_NOT_FOUND);
+        } catch (\Exception $e) {
+            redirect("/404");
         }
 
     }

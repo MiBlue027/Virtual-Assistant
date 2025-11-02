@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Repository\AppRepository\AdminRepository;
+namespace Database\Repository\AppRepository\LoginRepository;
 
 use Database\Entities\Users;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Parameter;
 
-class AdminLoginRepository
+class LoginRepository
 {
     private EntityManager $entityManager;
     public function __construct(EntityManager $entityManager)

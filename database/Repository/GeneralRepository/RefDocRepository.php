@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Repository\AppRepository;
+namespace Database\Repository\GeneralRepository;
 
 use Database\Entities\RefDoc;
 use Doctrine\ORM\EntityManager;

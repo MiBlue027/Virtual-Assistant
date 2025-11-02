@@ -1,88 +1,92 @@
-<div class="docList-page">
-    <div class="docList-header">
-        <h1 class="docList-title">Documents</h1>
-        <a href="/va/upload" class="docList-btnUpload">+ Upload Document</a>
-    </div>
+<?php include __DIR__ . '/head_nav.php'; ?>
 
-    <div class="docList-content">
-        <table class="docList-table">
-            <thead>
-            <tr>
-                <th class="docList-colNo">#</th>
-                <th class="docList-colDocName">Document Name</th>
-                <th>Type</th>
-                <th class="docList-colAction" colspan="2">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if (!empty($model["docList"])): ?>
-                <?php foreach ($model["docList"] as $index => $doc): ?>
-                    <tr>
-                        <td><?= $index + 1 ?></td>
-                        <td><?= htmlspecialchars($doc->getDocName()) ?></td>
-                        <td><?= htmlspecialchars(explode('/', $doc->getDocType())[1] ?? $doc->getDocType()) ?></td>
-                        <td>
-                            <button class="docList-btnDownload" data-doc="<?= htmlspecialchars($doc->getRefDocId()) ?>"> Download </button>
-                        </td>
-                        <td>
-                            <button class="docList-btnDelete" data-doc="<?= htmlspecialchars($doc->getRefDocId()) ?>">
-                                Delete
-                            </button>
-                            <form id="docListDeleteForm" action="/va/knowledge/list" method="post" style="display:none;">
-                                <input type="hidden" name="docId" id="docListDeleteId">
-                                <input type="hidden" name="actionType" value="delete">
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
+<main>
+    <div class="docList-page">
+        <div class="docList-header">
+            <h1 class="docList-title">Documents</h1>
+            <a href="/va/upload" class="docList-btnUpload">+ Upload Document</a>
+        </div>
+
+        <div class="docList-content">
+            <table class="docList-table">
+                <thead>
                 <tr>
-                    <td colspan="4" class="docList-empty">No documents available.</td>
+                    <th class="docList-colNo">#</th>
+                    <th class="docList-colDocName">Document Name</th>
+                    <th>Type</th>
+                    <th class="docList-colAction" colspan="2">Action</th>
                 </tr>
-            <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                <?php if (!empty($model["docList"])): ?>
+                    <?php foreach ($model["docList"] as $index => $doc): ?>
+                        <tr>
+                            <td><?= $index + 1 ?></td>
+                            <td><?= htmlspecialchars($doc->getDocName()) ?></td>
+                            <td><?= htmlspecialchars(explode('/', $doc->getDocType())[1] ?? $doc->getDocType()) ?></td>
+                            <td>
+                                <button class="docList-btnDownload" data-doc="<?= htmlspecialchars($doc->getRefDocId()) ?>"> Download </button>
+                            </td>
+                            <td>
+                                <button class="docList-btnDelete" data-doc="<?= htmlspecialchars($doc->getRefDocId()) ?>">
+                                    Delete
+                                </button>
+                                <form id="docListDeleteForm" action="/va/knowledge/list" method="post" style="display:none;">
+                                    <input type="hidden" name="docId" id="docListDeleteId">
+                                    <input type="hidden" name="actionType" value="delete">
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" class="docList-empty">No documents available.</td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
-    <div class="docList-footer">
-        <form id="docListActivateForm" action="/va/knowledge/list" method="post">
-            <input type="hidden" name="actionType" value="activate">
-            <button type="button" class="docList-btnActivate" id="docListActivateBtn">
-                Activate Documents
-            </button>
-        </form>
-    </div>
-</div>
-
-<div class="docList-modal" id="docListActivateModal">
-    <div class="docList-modalBox">
-        <h2 class="docList-modalTitle">Activate All Documents</h2>
-        <p class="docList-modalText">Are you sure you want to activate all documents?</p>
-        <div class="docList-modalActions">
-            <button class="docList-btnCancel" id="docListActivateCancel">Cancel</button>
-            <button class="docList-btnConfirm" id="docListActivateConfirm">Activate</button>
+        <div class="docList-footer">
+            <form id="docListActivateForm" action="/va/knowledge/list" method="post">
+                <input type="hidden" name="actionType" value="activate">
+                <button type="button" class="docList-btnActivate" id="docListActivateBtn">
+                    Activate Documents
+                </button>
+            </form>
         </div>
     </div>
-</div>
 
-<div class="docList-modal" id="docListModal">
-    <div class="docList-modalBox">
-        <h2 class="docList-modalTitle">Delete Document</h2>
-        <p class="docList-modalText">Are you sure you want to delete this document?</p>
-        <div class="docList-modalActions">
-            <button class="docList-btnCancel" id="docListCancelBtn">Cancel</button>
-            <button class="docList-btnConfirm" id="docListConfirmBtn">Delete</button>
+    <div class="docList-modal" id="docListActivateModal">
+        <div class="docList-modalBox">
+            <h2 class="docList-modalTitle">Activate All Documents</h2>
+            <p class="docList-modalText">Are you sure you want to activate all documents?</p>
+            <div class="docList-modalActions">
+                <button class="docList-btnCancel" id="docListActivateCancel">Cancel</button>
+                <button class="docList-btnConfirm" id="docListActivateConfirm">Activate</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="docList-modalNotif" id="docListNotif">
-    <div class="docList-modalNotifBox">
-        <h2 class="docList-modalNotifTitle" id="docListNotifTitle">Notification</h2>
-        <p class="docList-modalNotifMessage" id="docListNotifMessage">Message goes here...</p>
-        <button class="docList-modalNotifOk" id="docListNotifOk">OK</button>
+    <div class="docList-modal" id="docListModal">
+        <div class="docList-modalBox">
+            <h2 class="docList-modalTitle">Delete Document</h2>
+            <p class="docList-modalText">Are you sure you want to delete this document?</p>
+            <div class="docList-modalActions">
+                <button class="docList-btnCancel" id="docListCancelBtn">Cancel</button>
+                <button class="docList-btnConfirm" id="docListConfirmBtn">Delete</button>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="docList-modalNotif" id="docListNotif">
+        <div class="docList-modalNotifBox">
+            <h2 class="docList-modalNotifTitle" id="docListNotifTitle">Notification</h2>
+            <p class="docList-modalNotifMessage" id="docListNotifMessage">Message goes here...</p>
+            <button class="docList-modalNotifOk" id="docListNotifOk">OK</button>
+        </div>
+    </div>
+</main>
 
 <script>
     const modal = document.getElementById('docListModal');
@@ -136,7 +140,7 @@
             const docId = btn.getAttribute('data-doc');
 
             if (!docId) {
-                showDocListNotification("Error", "Document ID not found.", "error");
+                showDocListNotification("Error", "Document ID not found, please contact your administrator.", "error");
                 return;
             }
 

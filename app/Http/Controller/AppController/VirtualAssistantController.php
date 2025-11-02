@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controller;
+namespace App\Http\Controller\AppController;
 
 use App\Service\AIService\N8nSvc;
 use Exception;
@@ -130,7 +130,13 @@ class VirtualAssistantController
             throw new Exception("Failed download document, please contact your administrator");
         }
 
-        $filePath = __DIR__."/../../../resources/document/".$doc->getDocName();
+        $filePath = __DIR__."/../../../../resources/document/".$doc->getDocName();
+
+        if (!$filePath || !file_exists($filePath)) {
+            throw new Exception("File not found: " . $doc->getDocName());
+        }
+
+        if (ob_get_length()) ob_end_clean();
 
         $mimeType = mime_content_type($filePath);
         header('Content-Description: File Transfer');
@@ -141,7 +147,6 @@ class VirtualAssistantController
         header('Pragma: public');
         header('Content-Length: ' . filesize($filePath));
 
-        ob_clean();
         flush();
 
         readfile($filePath);

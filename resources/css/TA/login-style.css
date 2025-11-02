@@ -82,8 +82,9 @@
 
 .spnIcon-dUicInputBox {
     position: absolute;
-    right: 1.5em;
-    margin-top: -2.9em;
+    top: 55%;
+    right: 1em;
+    transform: translateY(-50%);
     cursor: pointer;
     width: 1.7em;
     height: 1.7em;
@@ -94,11 +95,6 @@
     background: rgba(255, 255, 255, 0.4);
     transition: background 0.3s, transform 0.2s;
     z-index: 2;
-}
-
-.spnIcon-dUicInputBox:hover {
-    background: rgba(255, 255, 255, 0.7);
-    transform: scale(1.05);
 }
 
 .button-common-1 {

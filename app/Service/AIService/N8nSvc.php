@@ -3,7 +3,7 @@
 namespace App\Service\AIService;
 
 use Database\Entities\RefDoc;
-use Database\Repository\AppRepository\RefDocRepository;
+use Database\Repository\GeneralRepository\RefDocRepository;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use GuzzleHttp\Client;

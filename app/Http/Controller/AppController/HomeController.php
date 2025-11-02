@@ -2,6 +2,8 @@
 namespace App\Http\Controller\AppController;
 
 
+use Database\Repository\GeneralRepository\UsersRepository;
+
 class HomeController
 {
     public function __construct(){
@@ -15,13 +17,23 @@ class HomeController
         ]);
     }
 
-    function profile_redirect() : void
+    function home() : void
     {
         try {
-            $session = $_SESSION["username"];
-            view("profile", [
-                "title" => "Profile",
-                "user" => $session
+            $session = $_SESSION["usersId"];
+            $entityManager = doctrine();
+
+            $repo = new UsersRepository($entityManager);
+            $user = $repo->GetUsersAdminById($session);
+
+            if ($user == null){
+                $_SESSION["isGuest"] = true;
+                redirect("/virtual-assistant");
+            }
+
+            view("home", [
+                "title" => "Home",
+                "user" => $user->getUsername()
             ]);
         } catch (\Exception $e) {
             redirect("/user/login");

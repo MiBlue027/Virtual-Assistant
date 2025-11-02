@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controller\AIController\N8nController;
-use App\Http\Controller\AppController\UserAuthenticationController;
+use App\Http\Controller\AppController\ExceptionController;
 use App\Http\Controller\AppController\HomeController;
-use App\Http\Controller\VirtualAssistantController;
+use App\Http\Controller\AppController\UserAuthenticationController;
+use App\Http\Controller\AppController\VirtualAssistantController;
+use App\Http\Middleware\Authorization\AdminOnlyMid;
 use App\Http\Middleware\Authorization\MustAuthorizedMid;
 use App\Http\Middleware\Authorization\MustUnauthorizedMid;
 use Path\RouteMethod;
@@ -18,11 +20,11 @@ Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITHOUT_TTS, N8nController
 Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITH_STREAM_TTS, N8nController::class, N8nController::FUNC_GET_RESPONSE_WITH_STREAM_TTS, [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::GET, RoutePath::N8N_CHAT_BOT_GET_STREAM_TTS, N8nController::class, "GetStreamResponse", [MustAuthorizedMid::class]);
 
-Route::Add(RouteMethod::GET, "/va/upload", VirtualAssistantController::class, "upload_doc_view", [MustAuthorizedMid::class]);
-Route::Add(RouteMethod::POST, "/va/upload", VirtualAssistantController::class, "upload_doc", [MustAuthorizedMid::class]);
-Route::Add(RouteMethod::GET, "/va/knowledge/download", VirtualAssistantController::class, "download_doc", [MustAuthorizedMid::class]);
-Route::Add(RouteMethod::GET, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_view", [MustAuthorizedMid::class]);
-Route::Add(RouteMethod::POST, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_action", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::GET, "/va/upload", VirtualAssistantController::class, "upload_doc_view", [MustAuthorizedMid::class, AdminOnlyMid::class]);
+Route::Add(RouteMethod::POST, "/va/upload", VirtualAssistantController::class, "upload_doc", [MustAuthorizedMid::class, AdminOnlyMid::class]);
+Route::Add(RouteMethod::GET, "/va/knowledge/download", VirtualAssistantController::class, "download_doc", [MustAuthorizedMid::class, AdminOnlyMid::class]);
+Route::Add(RouteMethod::GET, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_view", [MustAuthorizedMid::class, AdminOnlyMid::class]);
+Route::Add(RouteMethod::POST, "/va/knowledge/list", VirtualAssistantController::class, "doc_list_action", [MustAuthorizedMid::class, AdminOnlyMid::class]);
 
 #region USER_AUTHENTICATION_CTRL
 //login
@@ -31,7 +33,9 @@ Route::Add(RouteMethod::POST, "/user/login", UserAuthenticationController::class
 Route::Add(RouteMethod::GET, "/user/logout", UserAuthenticationController::class, "logout");
 #endregion
 
-Route::Add(RouteMethod::GET, "/profile", HomeController::class, "profile_redirect", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::GET, "/home", HomeController::class, "home", [MustAuthorizedMid::class]);
+
+Route::Add(RouteMethod::GET, "/404", ExceptionController::class, "page404", [MustAuthorizedMid::class]);
 
 
 Route::Run();

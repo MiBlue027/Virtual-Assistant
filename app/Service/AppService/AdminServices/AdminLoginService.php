@@ -5,14 +5,14 @@ namespace App\Service\AppService\AdminServices;
 use App\Dto\AdminLogin\AdminLoginRequest;
 use App\Dto\AdminLogin\AdminLoginResponse;
 use Database\Entities\Users;
-use Database\Repository\AppRepository\AdminRepository\AdminLoginRepository;
+use Database\Repository\AppRepository\LoginRepository\LoginRepository;
 use Exception;
 
 
 class AdminLoginService
 {
-    private AdminLoginRepository $adminLoginRepository;
-    public function __construct(AdminLoginRepository $adminLoginRepository)
+    private LoginRepository $adminLoginRepository;
+    public function __construct(LoginRepository $adminLoginRepository)
     {
         $this->adminLoginRepository = $adminLoginRepository;
     }

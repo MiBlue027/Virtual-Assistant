@@ -5,7 +5,7 @@ namespace App\Http\Controller\AppController;
 use App\Dto\AdminLogin\AdminLoginRequest;
 use App\Exception\ValidationException;
 use App\Service\AppService\AdminServices\AdminLoginService;
-use Database\Repository\AppRepository\AdminRepository\AdminLoginRepository;
+use Database\Repository\AppRepository\LoginRepository\LoginRepository;
 use Doctrine\ORM\EntityManager;
 use Path\View\ViewTitle;
 use PHPUnit\Exception;
@@ -34,7 +34,7 @@ class UserAuthenticationController
 
     function login_request(): void
     {
-        $adminLoginRepository = new AdminLoginRepository($this->entityManager);
+        $adminLoginRepository = new LoginRepository($this->entityManager);
         $adminLoginService = new AdminLoginService($adminLoginRepository);
 
         $request = new AdminLoginRequest();
@@ -45,7 +45,7 @@ class UserAuthenticationController
             $_SESSION["usersId"] = $response->user->getUsersId();
             $_SESSION["username"] = $request->username;
 
-            redirect("/profile");
+            redirect("/home");
         } catch (\Exception $e){
             view("login", [
                 "title" => "login",
