@@ -20,4 +20,8 @@
             </button>
         </form>
     </div>
+    <div class="chatMicModeToggleJQ chatMicModeToggle">
+        <div class="chatMicModeOption chatMicModeOptionChat active" data-mode="chat"> Chat</div>
+        <div class="chatMicModeOption chatMicModeOptionVoice" data-mode="voice" onclick="window.location.href='/virtual-assistant-voice'"> Voice</div>
+    </div>
 </div>

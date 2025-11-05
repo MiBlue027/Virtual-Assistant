@@ -1,0 +1,170 @@
+.voiceAssistantContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #0e0e0e;
+    overflow: hidden;
+}
+
+.voiceBubbleContainer {
+    position: relative;
+    width: 220px;
+    height: 220px;
+}
+
+.voiceBubble {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, #00b7ff, #0040ff);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(0, 183, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease, background 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+}
+
+.voiceBubble.listening {
+    background: radial-gradient(circle at 30% 30%, #00ff84, #007a3d);
+    box-shadow: 0 0 80px rgba(0, 255, 120, 0.8);
+    animation: listeningPulse 1s infinite ease-in-out;
+}
+
+.voiceBubble.speaking {
+    background: radial-gradient(circle at 30% 30%, #ff9900, #cc5500);
+    box-shadow: 0 0 80px rgba(255, 153, 0, 0.8);
+}
+
+@keyframes listeningPulse {
+    0% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.1); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 0.9; }
+}
+
+.voicePulse {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: idlePulse 2.5s infinite ease-in-out;
+}
+
+@keyframes idlePulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 0.3; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+
+/* Modal */
+
+.chatMicErrorModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+}
+
+.chatMicErrorModal.show {
+    display: block;
+}
+
+.chatMicErrorModalOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.chatMicErrorModalBox {
+    position: relative;
+    max-width: 400px;
+    margin: 15% auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    animation: chatMicFadeIn 0.3s ease;
+}
+
+.chatMicErrorModalContent {
+    padding: 20px;
+    text-align: center;
+}
+
+.chatMicErrorModalTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #c0392b;
+}
+
+.chatMicErrorModalMessage {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.chatMicErrorModalCloseBtn {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.chatMicErrorModalCloseBtn:hover {
+    background: #a93226;
+}
+
+@keyframes chatMicFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Toggle */
+
+.chatMicModeToggle {
+    position: fixed;
+    bottom: 90px;
+    right: 30px;
+    display: flex;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 999;
+    user-select: none;
+}
+
+.chatMicModeOption {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.25s ease;
+    font-weight: 600;
+}
+
+.chatMicModeOption.active {
+    background: #3498db;
+    color: #fff;
+}
+
+.chatMicModeOptionChat {
+    border-right: 1px solid #ddd;
+}
+
+.chatMicModeOption:hover {
+    background: #accdf8;
+}

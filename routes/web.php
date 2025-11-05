@@ -15,6 +15,7 @@ use support\Route;
 Route::Add(RouteMethod::GET, "/", HomeController::class, "LandingPage");
 
 Route::Add(RouteMethod::GET, "/virtual-assistant", VirtualAssistantController::class, "VirtualAssistantView", [MustAuthorizedMid::class]);
+Route::Add(RouteMethod::GET, "/virtual-assistant-voice", VirtualAssistantController::class, "VirtualAssistantVoiceView", [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITH_TTS, N8nController::class, N8nController::FUNC_GET_RESPONSE_WITH_TTS, [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITHOUT_TTS, N8nController::class, N8nController::FUNC_GET_RESPONSE_WITHOUT_TTS, [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITH_STREAM_TTS, N8nController::class, N8nController::FUNC_GET_RESPONSE_WITH_STREAM_TTS, [MustAuthorizedMid::class]);

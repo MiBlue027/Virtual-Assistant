@@ -14,6 +14,13 @@ class VirtualAssistantController
         ]);
     }
 
+    public function VirtualAssistantVoiceView()
+    {
+        view("virtual_assistant_voice_view", [
+            "title" => "Assistant Virtual"
+        ]);
+    }
+
     public function upload_doc_view()
     {
         view("doc_upload_view", [
