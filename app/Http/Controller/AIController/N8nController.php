@@ -3,7 +3,6 @@
 namespace App\Http\Controller\AIController;
 
 use App\Service\AIService\F5_TtsSvc;
-use App\Service\AIService\GPT_SoVITSSvc;
 use App\Service\AIService\N8nSvc;
 use GuzzleHttp\Exception\GuzzleException;
 use Path\RoutePath;
@@ -42,37 +41,49 @@ class N8nController
             $response = $agentScv->sendMessageToN8n(message: $userMessage);
 
             if ($isWithTTS){
-                $f5TtsSvc = new F5_TtsSvc();
-                $refText = "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.";
+                try {
+                    $f5TtsSvc = new F5_TtsSvc();
+                    $refText = "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.";
 
-                if (!$isStream) {
-                    $audioUrl = $f5TtsSvc->GenerateTts(
-                        message: $response['text'],
-                        refAudio: __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
-                        refText: $refText
-                    );
+                    if (!$isStream) {
+                        $audioUrl = $f5TtsSvc->GenerateTts(
+                            message: $response['text'],
+                            refAudio: __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
+                            refText: $refText
+                        );
 
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            'success' => true,
+                            'data' => [
+                                "text" => $response['text'],
+                                "html" => $response['html'],
+                                "audio" => $audioUrl
+                            ]
+                        ]);
+                    } else {
+                        header('Content-Type: application/json');
+                        echo json_encode([
+                            'success' => true,
+                            'data' => [
+                                "text" => $response['text'],
+                                "html" => $response['html'],
+                                "ref_audio" => __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
+                                "ref_text"  => "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.",
+                                "gen_text"  => $response['text'],
+                                "tts_endpoint" => "ws://127.0.0.1:9881/ws_tts"
+                            ]
+                        ]);
+                    }
+                } catch (\Exception $e){
                     header('Content-Type: application/json');
                     echo json_encode([
                         'success' => true,
                         'data' => [
-                            "text" => $response['text'],
-                            "html" => $response['html'],
-                            "audio" => $audioUrl
-                        ]
-                    ]);
-                } else {
-                    header('Content-Type: application/json');
-                    echo json_encode([
-                        'success' => true,
-                        'data' => [
-                            "text" => $response['text'],
-                            "html" => $response['html'],
-                            "ref_audio" => __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
-                            "ref_text"  => "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.",
-                            "gen_text"  => $response['text'],
-                            "tts_endpoint" => "ws://127.0.0.1:9881/ws_tts"
-                        ]
+                            'text' => $response['text'],
+                            "html" => $response['html']
+                        ],
+                        "error" => "The voice feature is currently under maintenance. please continue using the chat mode"
                     ]);
                 }
             } else {

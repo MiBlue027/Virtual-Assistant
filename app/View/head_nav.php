@@ -3,7 +3,7 @@ $user = $_SESSION["username"] ?? "Guest";
 $isGuest = $_SESSION["isGuest"] ?? false;
 ?>
 
-<header class="navigation-header">
+<header class="navigation-header" id="navigation-header">
     <div class="navigation-left">
         <?php if (!$isGuest): ?>
         <button class="navigation-menu-btn" id="navigationMenuToggle">
@@ -61,3 +61,21 @@ if (!$isGuest):
     });
 </script>
 <?php endif; ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elem = document.getElementById('navigation-header');
+
+        elem.addEventListener('dblclick', function () {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Gagal masuk fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen().catch(err => {
+                    console.error(`Gagal keluar fullscreen: ${err.message}`);
+                });
+            }
+        });
+    });
+</script>

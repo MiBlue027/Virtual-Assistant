@@ -5,6 +5,7 @@ import "./ai/n8n-chat_bot_ajax"
 import "./support_script/speech_to_text"
 
 import "./ta/va_voice"
+import "./ta/home"
 
 import "./uic/uic-chat_bot"
 import "./uic/uic-common_input"

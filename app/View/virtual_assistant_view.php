@@ -25,3 +25,33 @@
         <div class="chatMicModeOption chatMicModeOptionVoice" data-mode="voice" onclick="window.location.href='/virtual-assistant-voice'"> Voice</div>
     </div>
 </div>
+
+<div class="vafallbacknotif-container" id="vafallbacknotif">
+    <div class="vafallbacknotif-message"></div>
+</div>
+
+<script>
+    function showFallbackNotif(message, type = "error") {
+        const notif = document.getElementById("vafallbacknotif");
+        const msgBox = notif.querySelector(".vafallbacknotif-message");
+
+        notif.className = `vafallbacknotif-container ${type}`;
+        msgBox.textContent = message;
+
+        notif.style.display = "block";
+        notif.style.opacity = "1";
+
+        clearTimeout(notif.hideTimeout);
+        notif.hideTimeout = setTimeout(() => hideFallbackNotif(), 10000);
+
+        notif.onclick = hideFallbackNotif;
+    }
+
+    function hideFallbackNotif() {
+        const notif = document.getElementById("vafallbacknotif");
+        notif.style.opacity = "0";
+        setTimeout(() => {
+            notif.style.display = "none";
+        }, 300);
+    }
+</script>

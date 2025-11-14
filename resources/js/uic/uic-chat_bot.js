@@ -39,6 +39,10 @@ $(document).on("submit", ".dUICChatBotFormJQ", function(e) {
             chatBox.append(aiBox);
             chatBox.scrollTop(chatBox[0].scrollHeight);
 
+            if (data.error){
+                showFallbackNotif(data.error, "error");
+            }
+
         })
         .catch(function(error) {
             console.error("AI Error:", error);

@@ -154,8 +154,9 @@ class N8nSvc
     }
     public function ActivateDoc()
     {
-        $webhookUrl = env("N8N_KNOWLEDGE_API_KEY", null);
-        if ($webhookUrl == null) {
+        $uploadDoc_webhook = env("N8N_KNOWLEDGE_API_KEY", null);
+        $deleteDoc_webhook = env("N8N_DELETE_KNOWLEDGE_API_KEY", null);
+        if ($uploadDoc_webhook == null || $deleteDoc_webhook == null) {
             return [
                 'success' => false,
                 'message' => "Error on agent service, please contact your administrator.",
@@ -167,7 +168,7 @@ class N8nSvc
         if (empty($docs)) {
             return [
                 'success' => false,
-                'message' => 'No active documents found in database.',
+                'message' => 'No active documents found',
                 'results' => []
             ];
         }
@@ -175,6 +176,15 @@ class N8nSvc
         $client = new Client(['timeout' => 30]);
         $results = [];
         $allSuccess = true;
+
+        $deleteRes = $client->post($deleteDoc_webhook);
+        $deleteStatus = $deleteRes->getStatusCode();
+        if (!in_array($deleteStatus, [200, 204])) {
+            return [
+                'success' => false,
+                'message' => "Delete failed (" . $deleteStatus . ")",
+            ];
+        }
 
         foreach ($docs as $doc) {
             $filePath = __DIR__ . "/../../../resources/document/" . $doc->getDocName();
@@ -190,7 +200,7 @@ class N8nSvc
             }
 
             try {
-                $response = $client->post($webhookUrl, [
+                $response = $client->post($uploadDoc_webhook, [
                     'multipart' => [
                         [
                             'name'     => 'file',

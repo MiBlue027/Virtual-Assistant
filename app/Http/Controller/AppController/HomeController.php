@@ -2,7 +2,9 @@
 namespace App\Http\Controller\AppController;
 
 
+use App\Service\AppService\HomeSvc;
 use Database\Repository\GeneralRepository\UsersRepository;
+use PHPUnit\Exception;
 
 class HomeController
 {
@@ -12,33 +14,60 @@ class HomeController
 
     public function LandingPage(): void
     {
-        view("landing_page", [
-            "title" => "Virtual Assistant"
-        ]);
+        redirect("/user/login");
+//        view("landing_page", [
+//            "title" => "Virtual Assistant"
+//        ]);
     }
 
-    function home() : void
+    public function home() : void
+    {
+        $session = $_SESSION["usersId"];
+        $entityManager = doctrine();
+
+        $repo = new UsersRepository($entityManager);
+        $user = $repo->GetUsersAdminById($session);
+
+        if ($user == null){
+            $_SESSION["isGuest"] = true;
+            redirect("/virtual-assistant");
+        }
+        $totalChat = $this->CountTotalChatHist();
+        view("home", [
+            "title" => "Home",
+            "totalChat" => $totalChat
+        ]);
+
+    }
+
+    public function clear_all_chat_hist()
     {
         try {
-            $session = $_SESSION["usersId"];
-            $entityManager = doctrine();
+            $svc = new HomeSvc();
+            $svc->ClearAllChatHist();
 
-            $repo = new UsersRepository($entityManager);
-            $user = $repo->GetUsersAdminById($session);
-
-            if ($user == null){
-                $_SESSION["isGuest"] = true;
-                redirect("/virtual-assistant");
-            }
-
+            $totalChat = $this->CountTotalChatHist();
             view("home", [
                 "title" => "Home",
-                "user" => $user->getUsername()
+                "totalChat" => $totalChat
             ]);
         } catch (\Exception $e) {
-            redirect("/user/login");
+            $totalChat = $this->CountTotalChatHist();
+            view("home", [
+                "title" => "Home",
+                "totalChat" => $totalChat
+            ]);
         }
+    }
 
+    private function CountTotalChatHist()
+    {
+        try {
+            $svc = new HomeSvc();
+            return $svc->GetTotalChatHist();
+        } catch (\Exception $e) {
+            return "Error";
+        }
     }
 
 }
