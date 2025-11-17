@@ -34,7 +34,7 @@ Route::Add(RouteMethod::POST, "/user/login", UserAuthenticationController::class
 Route::Add(RouteMethod::GET, "/user/logout", UserAuthenticationController::class, "logout");
 #endregion
 
-Route::Add(RouteMethod::GET, "/home", HomeController::class, "home", [MustAuthorizedMid::class, AdminOnlyMid::class]);
+Route::Add(RouteMethod::GET, "/home", HomeController::class, "home", [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, "/home", HomeController::class, "clear_all_chat_hist", [MustAuthorizedMid::class, AdminOnlyMid::class]);
 
 Route::Add(RouteMethod::GET, "/404", ExceptionController::class, "page404", [MustAuthorizedMid::class]);

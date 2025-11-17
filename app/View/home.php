@@ -20,7 +20,7 @@ $totalChat = $model["totalChat"] ?? 0;
                 </div>
             </div>
         </div>
-        <form action="/home" method="POST">
+        <form action="/home" method="POST" id="sumChatHist-form">
             <button type="button" class="sumChatHist-clearBtn" id="sumChatHist-clearBtnJQ">
                 Clear All History
             </button>

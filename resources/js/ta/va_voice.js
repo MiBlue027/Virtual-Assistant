@@ -30,16 +30,16 @@ function startListening(bubble) {
     }
 
     window.SpeechToText({
-        lang: "en-EN",
+        lang: "id-ID",
         interim: false,
         continuous: false,
         onResult: (text) => {
-            if (text.trim() !== "") {
-                resetBubble(bubble);
-                sendVoiceRequest("/ai/n8n/chat-bot-stream-tts", text);
-            }
+            resetBubble(bubble);
+            sendVoiceRequest("/ai/n8n/chat-bot-stream-tts", text);
         },
-        onEnd: () => resetBubble(bubble),
+        onEnd: () => {
+            resetBubble(bubble)
+        },
         onError: (err) => {
             console.error("STT Error:", err);
             resetBubble(bubble);
