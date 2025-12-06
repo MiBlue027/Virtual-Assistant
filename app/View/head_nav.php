@@ -10,12 +10,16 @@ $isGuest = $_SESSION["isGuest"] ?? false;
             <img src="/src/asset/icons/menu.svg" alt="menu">
         </button>
         <?php endif; ?>
-        <img src="/src/asset/img/logo-white.png" alt="logo" class="navigation-logo">
+        <img src="/src/asset/img/miblue-logo.png" alt="logo" class="navigation-logo">
         <h1 class="navigation-title">Virtual Assistant</h1>
     </div>
     <div class="navigation-right">
-        <span class="navigation-username"> Hello, <?= htmlspecialchars($user) ?></span>
+        <span class="navigation-username"> Hello, <?= htmlspecialchars($user) ?>!</span>
+        <?php if (!$isGuest): ?>
         <a href="/user/logout" class="navigation-logout-btn">Logout</a>
+        <?php else: ?>
+        <a href="#" class="navigation-reset-btn">New Session</a>
+        <?php endif; ?>
     </div>
 </header>
 
@@ -27,7 +31,7 @@ if (!$isGuest):
         <ul class="sidebar-menu">
             <li class="sidebar-item">
                 <img src="/src/asset/icons/home.svg" alt="home" class="sidebar-icon">
-                <a href="/home" class="sidebar-link">Home</a>
+                <a href="/home" class="sidebar-link">Dashboard</a>
             </li>
             <li class="sidebar-item">
                 <img src="/src/asset/icons/books.svg" alt="knowledge" class="sidebar-icon">
@@ -61,21 +65,3 @@ if (!$isGuest):
     });
 </script>
 <?php endif; ?>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const elem = document.getElementById('navigation-header');
-
-        elem.addEventListener('dblclick', function () {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error(`Gagal masuk fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen().catch(err => {
-                    console.error(`Gagal keluar fullscreen: ${err.message}`);
-                });
-            }
-        });
-    });
-</script>

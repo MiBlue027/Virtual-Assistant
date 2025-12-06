@@ -3,9 +3,9 @@
 namespace App\Http\Controller\AppController;
 
 use App\Dto\AdminLogin\AdminLoginRequest;
-use App\Exception\ValidationException;
 use App\Service\AppService\AdminServices\AdminLoginService;
 use Database\Repository\AppRepository\LoginRepository\LoginRepository;
+use Database\Repository\GeneralRepository\UsersRepository;
 use Doctrine\ORM\EntityManager;
 use Path\View\ViewTitle;
 use PHPUnit\Exception;
@@ -42,8 +42,16 @@ class UserAuthenticationController
         $request->password = $_POST["password"];
         try {
             $response = $adminLoginService->Login($request);
-            $_SESSION["usersId"] = $response->user->getUsersId();
+            $userId = $response->user->getUsersId();
+            $_SESSION["usersId"] = $userId;
             $_SESSION["username"] = $request->username;
+
+            $repo = new UsersRepository($this->entityManager);
+            $userAdmin = $repo->GetUsersAdminById($userId);
+
+            if ($userAdmin == null){
+                $_SESSION["guestId"] = $userId . "-" . bin2hex(random_bytes(4));
+            }
 
             redirect("/home");
         } catch (\Exception $e){
@@ -62,5 +70,11 @@ class UserAuthenticationController
         redirect("/user/login");
     }
     #endregion
+
+    function reset_guest_session(): void
+    {
+        $_SESSION["guestId"] = $_SESSION["usersId"] . "-" . bin2hex(random_bytes(4));
+        redirect("/virtual-assistant");
+    }
 
 }

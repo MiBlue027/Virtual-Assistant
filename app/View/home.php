@@ -1,12 +1,13 @@
 <?php include __DIR__ . '/head_nav.php';
 
 $totalChat = $model["totalChat"] ?? 0;
-
+$listKnowledgeQst = $model["listKnowledgeQst"] ?? null;
+$listUnknowledgeQst = $model["listUnknowledgeQst"] ?? null;
 ?>
 
 <div class="sumChatHist-container">
     <div class="sumChatHist-card">
-        <h2 class="sumChatHist-title">Chat History Summary</h2>
+        <h2 class="sumChatHist-title">Count Chat History</h2>
 
         <div class="sumChatHist-gaugeWrapper">
             <div class="sumChatHist-gaugeCore">
@@ -28,6 +29,79 @@ $totalChat = $model["totalChat"] ?? 0;
 
     </div>
 </div>
+
+<div class="sumChatHist-summaryCard">
+    <h3 class="sumChatHist-summaryTitle">Most Asked Questions</h3>
+
+    <div class="sumChatHist-summaryTableWrapper">
+        <table class="sumChatHist-summaryTable">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Question</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+                if ($listKnowledgeQst):
+                    for ($i = 0; $i < count($listKnowledgeQst); $i++):
+            ?>
+                    <tr>
+                        <td><?= $i+1 ?></td>
+                        <td><?= htmlspecialchars($listKnowledgeQst[$i]['question']) ?></td>
+                        <td><?= $listKnowledgeQst[$i]['qty'] ?></td>
+                    </tr>
+            <?php
+                    endfor;
+                endif;
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+<!--    <div class="sumChatHist-summaryAction">-->
+<!--        <a href="/detail/questions" class="sumChatHist-detailBtn">Detail</a>-->
+<!--    </div>-->
+</div>
+
+<div class="sumChatHist-summaryCard">
+    <h3 class="sumChatHist-summaryTitle"> Most Unknowledge Question</h3>
+
+    <div class="sumChatHist-summaryTableWrapper">
+        <table class="sumChatHist-summaryTable">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Question</th>
+                <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            if ($listUnknowledgeQst):
+                for ($i = 0; $i < count($listUnknowledgeQst); $i++):
+                    ?>
+                    <tr>
+                        <td><?= $i+1 ?></td>
+                        <td><?= htmlspecialchars($listUnknowledgeQst[$i]['question']) ?></td>
+                        <td><?= $listUnknowledgeQst[$i]['qty'] ?></td>
+                    </tr>
+                <?php
+                endfor;
+            endif;
+            ?>
+            </tbody>
+        </table>
+    </div>
+
+<!--    <div class="sumChatHist-summaryAction">-->
+<!--        <a href="/detail/keywords" class="sumChatHist-detailBtn">Detail</a>-->
+<!--    </div>-->
+</div>
+
+
+
 
 <div class="sumChatHist-modal" id="sumChatHist-modal">
     <div class="sumChatHist-modalBox">

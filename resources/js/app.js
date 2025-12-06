@@ -4,6 +4,7 @@ import "./ai/n8n-chat_bot_ajax"
 
 import "./support_script/speech_to_text"
 
+import "./ta/head_nav"
 import "./ta/va_voice"
 import "./ta/home"
 

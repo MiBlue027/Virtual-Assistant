@@ -49,7 +49,7 @@ h1, h2, h3, h4, h5, h6, button {
     font-weight: 700;
 }
 
-p, label, span, a {
+p, label, span, a , textarea, input{
     font-family: 'Lato', sans-serif;
     line-height: 1.6;
 }

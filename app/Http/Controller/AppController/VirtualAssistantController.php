@@ -54,18 +54,21 @@ class VirtualAssistantController
 
     public function doc_list_view(){
         $service = new N8nSvc();
-        
         $docList = $service->GetAllActDoc();
+
+        $isDocAct = $service->GetDocActivationStat();
 
         view("doc_list", [
             "title" => "Document List"
             , "docList" => $docList
+            , "isDocAct" => $isDocAct
         ]);
     }
 
     public function doc_list_action()
     {
         $service = new N8nSvc();
+        $isDocAct = $service->GetDocActivationStat();
 
         $actionType = $_POST["actionType"] ?? null;
         if ($actionType == null) {
@@ -75,6 +78,7 @@ class VirtualAssistantController
                 , "docList" => $docList
                 , "notif" => "Error in application, please contact your administrator"
                 , "notifType" => "error"
+                , "isDocAct" => $isDocAct
             ]);
         }
 
@@ -88,17 +92,20 @@ class VirtualAssistantController
                     , "docList" => $docList
                     , "notif" => "Error in application, please contact your administrator"
                     , "notifType" => "error"
+                    , "isDocAct" => $isDocAct
                 ]);
             }
 
             try {
                 $service->DeleteDoc($docId);
                 $docList = $service->GetAllActDoc();
+                $isDocAct = $service->GetDocActivationStat();
                 view("doc_list", [
                     "title" => "Document List"
                     , "docList" => $docList
                     , "notif" => "Success delete document"
                     , "notifType" => "success"
+                    , "isDocAct" => $isDocAct
                 ]);
             } catch (Exception $e){
                 $docList = $service->GetAllActDoc();
@@ -107,18 +114,21 @@ class VirtualAssistantController
                     , "docList" => $docList
                     , "notif" => $e->getMessage()
                     , "notifType" => "error"
+                    , "isDocAct" => $isDocAct
                 ]);
             }
         }
 
         if ($actionType == "activate"){
             $res = $service->ActivateDoc();
+            $isDocAct = $service->GetDocActivationStat();
             $docList = $service->GetAllActDoc();
             view("doc_list", [
                 "title" => "Document List",
                 "docList" => $docList,
                 "notif" => $res["message"] ?? "Unknown result from activation.",
                 "notifType" => $res["success"] ? "success" : "error"
+                , "isDocAct" => $isDocAct
             ]);
         }
     }

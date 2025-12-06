@@ -3,13 +3,17 @@ namespace App\Http\Controller\AppController;
 
 
 use App\Service\AppService\HomeSvc;
+use Database\Entities\RefQstSum;
+use Database\Repository\ApiRepository\RefQstSumRepository;
 use Database\Repository\GeneralRepository\UsersRepository;
+use Doctrine\ORM\EntityManager;
 use PHPUnit\Exception;
 
 class HomeController
 {
+    private EntityManager $entityManager;
     public function __construct(){
-
+        $this->entityManager = doctrine();
     }
 
     public function LandingPage(): void
@@ -23,19 +27,26 @@ class HomeController
     public function home() : void
     {
         $session = $_SESSION["usersId"];
-        $entityManager = doctrine();
 
-        $repo = new UsersRepository($entityManager);
+        $repo = new UsersRepository($this->entityManager);
         $user = $repo->GetUsersAdminById($session);
 
         if ($user == null){
             $_SESSION["isGuest"] = true;
             redirect("/virtual-assistant");
         }
+
+        $refQstSumRepo = new RefQstSumRepository($this->entityManager);
+
+        $listKnowledgeQst = $refQstSumRepo->GetKnowledgeQuestion();
+        $listUnknowledgeQst = $refQstSumRepo->GetUnknowledgeQuestion();
+
         $totalChat = $this->CountTotalChatHist();
         view("home", [
             "title" => "Home",
-            "totalChat" => $totalChat
+            "totalChat" => $totalChat,
+            "listKnowledgeQst" => $listKnowledgeQst,
+            "listUnknowledgeQst" => $listUnknowledgeQst
         ]);
 
     }
@@ -47,15 +58,24 @@ class HomeController
             $svc->ClearAllChatHist();
 
             $totalChat = $this->CountTotalChatHist();
+
+            $refQstSumRepo = new RefQstSumRepository($this->entityManager);
+            $listKnowledgeQst = $refQstSumRepo->GetKnowledgeQuestion();
+            $listUnknowledgeQst = $refQstSumRepo->GetUnknowledgeQuestion();
+
             view("home", [
                 "title" => "Home",
                 "totalChat" => $totalChat
+                , "listKnowledgeQst" => $listKnowledgeQst,
+                "listUnknowledgeQst" => $listUnknowledgeQst
             ]);
         } catch (\Exception $e) {
             $totalChat = $this->CountTotalChatHist();
             view("home", [
                 "title" => "Home",
                 "totalChat" => $totalChat
+                , "listKnowledgeQst" => $listKnowledgeQst,
+                "listUnknowledgeQst" => $listUnknowledgeQst
             ]);
         }
     }

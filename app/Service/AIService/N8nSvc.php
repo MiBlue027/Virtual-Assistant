@@ -3,6 +3,7 @@
 namespace App\Service\AIService;
 
 use Database\Entities\RefDoc;
+use Database\Repository\GeneralRepository\GeneralSettingRepository;
 use Database\Repository\GeneralRepository\RefDocRepository;
 use Doctrine\ORM\EntityManager;
 use Exception;
@@ -29,9 +30,14 @@ class N8nSvc
      */
     public function sendMessageToN8n(string $message): array
     {
+        if (!isset($_SESSION["guestId"])){
+            $userId = $_SESSION["usersId"];
+        } else {
+            $userId = $_SESSION["guestId"];
+        }
         $response = $this->client->post($this->n8nWebhookUrl, [
             'json' => [
-                'users_id' => $_SESSION["usersId"],
+                'users_id' => $userId,
                 'message' => $message
             ],
             'timeout' => 30
@@ -108,6 +114,10 @@ class N8nSvc
             $refDoc->setDocType($file["type"]);
             $refDoc->setDocStat("ACT");
             $refDoc->setDocPath($dbPath);
+
+            $generalSettingRepository = new GeneralSettingRepository($this->entityManager);
+            $gs = $generalSettingRepository->GetGSByGsCode("ACTDOCSTAT");
+            $gs->setGsValue("0");
             repo_save($refDoc);
         } catch (Exception $exception) {
             if (file_exists($filePath)) {
@@ -120,6 +130,7 @@ class N8nSvc
     public function DeleteDoc(string $docId): void
     {
         $refDocRepository = new RefDocRepository($this->entityManager);
+        $generalSettingRepository = new GeneralSettingRepository($this->entityManager);
         try {
             $intDocId = (int)$docId;
         } catch (Exception $exception) {
@@ -132,7 +143,14 @@ class N8nSvc
         }
 
         $refDoc->setDocStat("DEL");
-        repo_save();
+        try {
+            $gs = $generalSettingRepository->GetGSByGsCode("ACTDOCSTAT");
+            $gs->setGsValue("0");
+            repo_save();
+        } catch (Exception $exception) {
+            throw new Exception("Failed delete document, please contact your administrator.");
+        }
+
     }
 
 
@@ -154,6 +172,15 @@ class N8nSvc
     }
     public function ActivateDoc()
     {
+        $isDocAct = $this->GetDocActivationStat();
+        if ($isDocAct === "1"){
+            return [
+                'success' => false,
+                'message' => "No new documents to activate.",
+                'results' => []
+            ];
+        }
+
         $uploadDoc_webhook = env("N8N_KNOWLEDGE_API_KEY", null);
         $deleteDoc_webhook = env("N8N_DELETE_KNOWLEDGE_API_KEY", null);
         if ($uploadDoc_webhook == null || $deleteDoc_webhook == null) {
@@ -244,6 +271,11 @@ class N8nSvc
 
         if ($allSuccess) {
             $message = "✅ All " . count($docs) . " document(s) uploaded successfully.";
+
+            $generalSettingRepository = new GeneralSettingRepository($this->entityManager);
+            $gs = $generalSettingRepository->GetGSByGsCode("ACTDOCSTAT");
+            $gs->setGsValue("1");
+            repo_save();
         } else {
             $failedDocs = array_filter($results, fn($r) => !$r['success']);
             $successDocs = array_filter($results, fn($r) => $r['success']);
@@ -261,6 +293,12 @@ class N8nSvc
             'message' => $message,
             'results' => $results
         ];
+    }
+
+    public function GetDocActivationStat(): string
+    {
+        $generalSettingRepository = new GeneralSettingRepository($this->entityManager);
+        return $generalSettingRepository->GetGSByGsCode("ACTDOCSTAT")->getGsValue();
     }
 
 

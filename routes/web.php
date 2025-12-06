@@ -14,6 +14,9 @@ use support\Route;
 
 Route::Add(RouteMethod::GET, "/", HomeController::class, "LandingPage");
 
+Route::Add(RouteMethod::POST, "/api/receive-question-summary", App\Http\Controller\API\QuestionSummaryController::class, "ReceiveQuestionFromN8n");
+Route::Add(RouteMethod::POST, "/api/receive-question-summary-ntf", App\Http\Controller\API\QuestionSummaryController::class, "ReceiveNTFQuestionFromN8n");
+
 Route::Add(RouteMethod::GET, "/virtual-assistant", VirtualAssistantController::class, "VirtualAssistantView", [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::GET, "/virtual-assistant-voice", VirtualAssistantController::class, "VirtualAssistantVoiceView", [MustAuthorizedMid::class]);
 Route::Add(RouteMethod::POST, RoutePath::N8N_CHAT_BOT_WITH_TTS, N8nController::class, N8nController::FUNC_GET_RESPONSE_WITH_TTS, [MustAuthorizedMid::class]);
@@ -32,6 +35,7 @@ Route::Add(RouteMethod::POST, "/va/knowledge/list", VirtualAssistantController::
 Route::Add(RouteMethod::GET, "/user/login", UserAuthenticationController::class, "login_view", [MustUnauthorizedMid::class]);
 Route::Add(RouteMethod::POST, "/user/login", UserAuthenticationController::class, "login_request");
 Route::Add(RouteMethod::GET, "/user/logout", UserAuthenticationController::class, "logout");
+Route::Add(RouteMethod::GET, "/user/reset/session", UserAuthenticationController::class, "reset_guest_session");
 #endregion
 
 Route::Add(RouteMethod::GET, "/home", HomeController::class, "home", [MustAuthorizedMid::class]);

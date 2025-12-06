@@ -1,9 +1,21 @@
-<?php include __DIR__ . '/head_nav.php'; ?>
+<?php
+include __DIR__ . '/head_nav.php';
+
+$isDocAct = $model["isDocAct"] ?? "0";
+
+?>
 
 <main>
     <div class="docList-page">
         <div class="docList-header">
-            <h1 class="docList-title">Documents</h1>
+            <h1 class="docList-title">
+                Documents
+                <?php if ($isDocAct === "1"): ?>
+                <span class="docList-statusBadge docList-statusGreen">Active</span>
+                <?php else: ?>
+                <span class="docList-statusBadge docList-statusOrange">Need Activated</span>
+                <?php endif; ?>
+            </h1>
             <a href="/va/upload" class="docList-btnUpload">+ Upload Document</a>
         </div>
 
