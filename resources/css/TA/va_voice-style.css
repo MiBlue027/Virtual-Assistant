@@ -116,6 +116,13 @@
     animation: va_voice-pulse 1.5s ease-in-out infinite;
 }
 
+.va_voice-status-badge.loading {
+    background: rgba(153, 0, 255, 0.2);
+    color: #7300ff;
+    border-color: rgba(132, 0, 255, 0.3);
+    animation: va_voice-pulse 1.5s ease-in-out infinite;
+}
+
 .va_voice-status-badge.speaking {
     background: rgba(33, 150, 243, 0.2);
     color: #2196f3;
@@ -225,6 +232,11 @@
 
 .voiceBubble.listening + .va_voice-mic-label {
     color: #f5576c;
+    font-weight: 600;
+}
+
+.voiceBubble.loading + .va_voice-mic-label {
+    color: #7758e8;
     font-weight: 600;
 }
 

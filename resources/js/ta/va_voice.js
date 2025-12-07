@@ -34,8 +34,8 @@ function updateUIState(state) {
     const waveIndicator = document.getElementById('va_voice-waveIndicator');
 
     // Remove all states
-    bubble.classList.remove('listening', 'speaking');
-    statusBadge.classList.remove('listening', 'speaking');
+    bubble.classList.remove('listening', 'speaking', 'loading');
+    statusBadge.classList.remove('listening', 'speaking', 'loading');
     waveIndicator.classList.remove('active');
 
     // Apply new state
@@ -52,6 +52,13 @@ function updateUIState(state) {
             micLabel.textContent = 'Listening...';
             bubble.setAttribute('data-listening', 'true');
             break;
+        case 'loading':
+            bubble.classList.add('loading');
+            statusBadge.classList.add('loading');
+            statusBadge.textContent = 'Processing';
+            micLabel.textContent = 'Processing response...';
+            bubble.setAttribute('data-listening', 'true');
+            break;
         case 'speaking':
             bubble.classList.add('speaking');
             statusBadge.classList.add('speaking');
@@ -63,10 +70,11 @@ function updateUIState(state) {
 }
 
 // Update message display
-function updateMessage(text) {
+function updateMessage(htmlContent) {
     const messageText = document.getElementById('va_voice-messageText');
-    if (messageText && text) {
-        messageText.textContent = text;
+    if (messageText && htmlContent) {
+        // Use innerHTML to render HTML content (bold, italic, etc.)
+        messageText.innerHTML = htmlContent;
     }
 }
 
@@ -111,7 +119,9 @@ document.addEventListener("click", function (e) {
     const bubble = e.target.closest(".voiceBubble");
     if (!bubble) return;
 
-    if (bubble.classList.contains("listening") || bubble.classList.contains("speaking")) {
+    if (bubble.classList.contains("listening") ||
+        bubble.classList.contains("speaking") ||
+        bubble.classList.contains("loading")) {
         if (window.SpeechToText && typeof window.SpeechToText.stop === "function") {
             window.SpeechToText.stop();
         }
@@ -140,11 +150,11 @@ function startListening(bubble) {
         interim: false,
         continuous: false,
         onResult: (text) => {
-            resetBubble(bubble);
+            updateUIState('loading');
             sendVoiceRequest("/ai/n8n/chat-bot-stream-tts", text);
         },
         onEnd: () => {
-            resetBubble(bubble);
+            // Don't reset here, let the sendVoiceRequest handle it
         },
         onError: (err) => {
             console.error("STT Error:", err);
@@ -157,12 +167,14 @@ function startListening(bubble) {
 function sendVoiceRequest(url, message) {
     if (typeof AI_N8N_SendMessage !== "function") {
         console.error("AI_N8N_SendMessage() is not defined");
+        const bubble = document.querySelector(".voiceBubble");
+        resetBubble(bubble);
         return;
     }
 
     AI_N8N_SendMessage(url, message)
         .then(function (data) {
-            // Update message text if available
+            // Update message HTML if available
             if (data.html) {
                 updateMessage(data.html);
             }
@@ -173,15 +185,23 @@ function sendVoiceRequest(url, message) {
             } else if (data.tts_endpoint) {
                 const bubble = document.querySelector(".voiceBubble");
                 playAndAnimateStream(bubble, data.tts_endpoint, data);
+            } else {
+                // No audio, just reset
+                const bubble = document.querySelector(".voiceBubble");
+                resetBubble(bubble);
             }
 
             if (data.error) {
                 showFallbackNotif(data.error, "error");
+                const bubble = document.querySelector(".voiceBubble");
+                resetBubble(bubble);
             }
         })
         .catch(function (err) {
             console.error("Voice Assistant Error:", err);
             showChatMicErrorModal("Sorry, our service is currently unavailable. Please contact your administrator");
+            const bubble = document.querySelector(".voiceBubble");
+            resetBubble(bubble);
         });
 }
 
@@ -213,7 +233,10 @@ function playAndAnimateBubble(bubble, audioUrl) {
 
     currentAudio.play()
         .then(() => animate())
-        .catch(() => console.log("Autoplay blocked"));
+        .catch(() => {
+            console.log("Autoplay blocked");
+            resetBubble(bubble);
+        });
 
     currentAudio.onended = () => resetBubble(bubble);
 }
