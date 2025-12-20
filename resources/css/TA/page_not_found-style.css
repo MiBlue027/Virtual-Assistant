@@ -1,0 +1,53 @@
+.excpt_pg_not_found-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #0f1724;
+    padding: 20px;
+}
+
+
+.excpt_pg_not_found-box {
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    padding: 40px 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+
+.excpt_pg_not_found-code {
+    margin: 0;
+    font-size: 72px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -2px;
+}
+
+
+.excpt_pg_not_found-text {
+    margin: 10px 0 28px 0;
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+}
+
+
+.excpt_pg_not_found-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: white;
+    box-shadow: 0 6px 18px rgba(37,117,252,0.25);
+}
+
+
+.excpt_pg_not_found-btn:hover {
+    transform: translateY(-2px);
+    transition: 0.18s ease;
+}

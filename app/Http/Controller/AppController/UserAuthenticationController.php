@@ -77,4 +77,11 @@ class UserAuthenticationController
         redirect("/virtual-assistant");
     }
 
+    function not_found_exception(): void
+    {
+        view("page_not_found", [
+            "title" => "404",
+        ]);
+    }
+
 }

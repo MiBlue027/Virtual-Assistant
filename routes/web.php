@@ -43,5 +43,6 @@ Route::Add(RouteMethod::POST, "/home", HomeController::class, "clear_all_chat_hi
 
 Route::Add(RouteMethod::GET, "/404", ExceptionController::class, "page404", [MustAuthorizedMid::class]);
 
+Route::Add(RouteMethod::GET, "/exception/404", UserAuthenticationController::class, "not_found_exception");
 
 Route::Run();

@@ -10,7 +10,7 @@ $isGuest = $_SESSION["isGuest"] ?? false;
             <img src="/src/asset/icons/menu.svg" alt="menu">
         </button>
         <?php endif; ?>
-        <img src="/src/asset/img/miblue-logo.png" alt="logo" class="navigation-logo">
+        <img src="/src/asset/img/logo-white.png" alt="logo" style="width: 2.5em">
         <h1 class="navigation-title">Virtual Assistant</h1>
     </div>
     <div class="navigation-right">

@@ -171,7 +171,7 @@ function sendVoiceRequest(url, message) {
         resetBubble(bubble);
         return;
     }
-
+    console.log(message);
     AI_N8N_SendMessage(url, message)
         .then(function (data) {
             // Update message HTML if available
