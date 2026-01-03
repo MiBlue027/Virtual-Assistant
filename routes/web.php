@@ -45,4 +45,6 @@ Route::Add(RouteMethod::GET, "/404", ExceptionController::class, "page404", [Mus
 
 Route::Add(RouteMethod::GET, "/exception/404", UserAuthenticationController::class, "not_found_exception");
 
+Route::Add(RouteMethod::GET, "/test", \App\Http\Controller\ThreeJs\ThreeJsController::class, "test");
+
 Route::Run();
