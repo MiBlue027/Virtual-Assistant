@@ -40,6 +40,26 @@ class N8nController
             $agentScv = new N8nSvc();
             $response = $agentScv->sendMessageToN8n(message: $userMessage);
 
+            [$lang, $text] = explode('-', $response['text'], 2);
+
+            [, $textHtml] = explode('-', $response['html'], 2);
+
+            $lang     = trim($lang);
+            $text     = trim($text);
+            $textHtml = trim($textHtml);
+
+            if (!in_array($lang, ['EN', 'ID'])) {
+                echo json_encode([
+                    'success' => true,
+                    'data' => [
+                        "text" => $text,
+                        "html" => $textHtml
+                    ],
+                    "error" => "Error lang format"
+                ]);
+                return;
+            }
+
             if ($isWithTTS){
                 try {
                     $f5TtsSvc = new F5_TtsSvc();
@@ -56,45 +76,76 @@ class N8nController
                         echo json_encode([
                             'success' => true,
                             'data' => [
-                                "text" => $response['text'],
-                                "html" => $response['html'],
+                                "text" => $text,
+                                "html" => $textHtml,
                                 "audio" => $audioUrl
                             ]
                         ]);
+                        return;
                     } else {
-                        header('Content-Type: application/json');
-                        echo json_encode([
-                            'success' => true,
-                            'data' => [
-                                "text" => $response['text'],
-                                "html" => $response['html'],
-                                "ref_audio" => __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
-                                "ref_text"  => "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.",
-                                "gen_text"  => $response['text'],
-                                "tts_endpoint" => "ws://127.0.0.1:9881/ws_tts"
-                            ]
-                        ]);
+                        if ($lang == "EN") {
+                            header('Content-Type: application/json');
+                            echo json_encode([
+                                'success' => true,
+                                'data' => [
+                                    "text" => $text,
+                                    "html" => $textHtml,
+                                    "ref_audio" => __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
+                                    "ref_text"  => "Respect must be given to the will of every creature. Each fish in the ocean swims in its own direction.",
+                                    "gen_text"  => $response['text'],
+                                    "tts_endpoint" => "ws://127.0.0.1:9881/ws_tts"
+                                ]
+                            ]);
+                            return;
+                        } else if ($lang == "ID"){
+//                            header('Content-Type: application/json');
+//                            echo json_encode([
+//                                'success' => true,
+//                                'data' => [
+//                                    "text" => $text,
+//                                    "html" => $textHtml,
+//                                    "ref_audio" => __DIR__ . "/../../../../resources/ai/ref_audio/Kokomi-Fish.wav",
+//                                    "language_id" => "ms",
+//                                    "gen_text"  => $response['text'],
+//                                    "tts_endpoint" => "ws://127.0.0.1:9882/ws_tts"
+//                                ]
+//                            ]);
+                            $audioUrl = $this->generateElevenLabsTts($text);
+                            header('Content-Type: application/json');
+                            echo json_encode([
+                                'success' => true,
+                                'data' => [
+                                    "text" => $text,
+                                    "html" => $textHtml,
+                                    "audio" => $audioUrl
+                                ]
+                            ]);
+                            return;
+                        }
+
                     }
                 } catch (\Exception $e){
                     header('Content-Type: application/json');
                     echo json_encode([
                         'success' => true,
                         'data' => [
-                            'text' => $response['text'],
-                            "html" => $response['html']
+                            "text" => $text,
+                            "html" => $textHtml
                         ],
                         "error" => "The voice feature is currently under maintenance. please continue using the chat mode"
                     ]);
+                    return;
                 }
             } else {
                 header('Content-Type: application/json');
                 echo json_encode([
                     'success' => true,
                     'data' => [
-                        'text' => $response['text'],
-                        "html" => $response['html']
+                        "text" => $text,
+                        "html" => $textHtml
                     ]
                 ]);
+                return;
             }
 
         } catch (GuzzleException $e) {
@@ -107,4 +158,40 @@ class N8nController
             echo json_encode(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()]);
         }
     }
+
+    private function generateElevenLabsTts(string $text): string
+    {
+        $apiUrl = env('ELEVENLAB_API') . "JaUVfDrFcfwGIsv8X2kN";
+        $apiKey = env('ELEVENLAB_KEY');
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->post($apiUrl, [
+            'headers' => [
+                'xi-api-key' => $apiKey,
+                'Content-Type' => 'application/json',
+                'Accept' => 'audio/mpeg'
+            ],
+            'json' => [
+                'text' => $text,
+                'model_id' => 'eleven_multilingual_v2',
+                'voice_settings' => [
+                    'stability' => 0.45,
+                    'similarity_boost' => 0.75
+                ]
+            ]
+        ]);
+
+        $audioBinary = $response->getBody()->getContents();
+
+        $fileName = 'elevenlabs_' . uniqid() . '.mp3';
+        $savePath = __DIR__ . '/../../../../public/tts/' . $fileName;
+
+        file_put_contents($savePath, $audioBinary);
+
+        return '/tts/' . $fileName;
+    }
+
+
+
 }

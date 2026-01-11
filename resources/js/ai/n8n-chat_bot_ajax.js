@@ -8,10 +8,45 @@ window.AI_N8N_SendMessage = function (url, message) {
             success: function(response) {
                 if (response.success) {
                     if (response.data.audio) {
-                        let audio = new Audio(response.data.audio);
-                        audio.play().catch(e => {
-                            console.log('Autoplay prevented - user needs to interact first');
+
+                        if (window.__AI_AUDIO__) {
+                            window.__AI_AUDIO__.pause();
+                            window.__AI_AUDIO__.currentTime = 0;
+                            window.__AI_AUDIO__ = null;
+                        }
+
+                        if (window.__AI_AUDIO_CTX__) {
+                            window.__AI_AUDIO_CTX__.close();
+                            window.__AI_AUDIO_CTX__ = null;
+                        }
+
+                        if (window.__AI_AUDIO_WS__) {
+                            window.__AI_AUDIO_WS__.close();
+                            window.__AI_AUDIO_WS__ = null;
+                        }
+
+                        if (window.__AI_AUDIO__) {
+                            try {
+                                window.__AI_AUDIO__.pause();
+                                window.__AI_AUDIO__.src = '';
+                                window.__AI_AUDIO__.load();
+                            } catch (e) {}
+                            window.__AI_AUDIO__ = null;
+                        }
+
+                        const audio = new Audio();
+                        audio.src = response.data.audio;
+                        audio.preload = 'auto';
+
+                        audio.onended = () => {
+                            window.__AI_AUDIO__ = null;
+                        };
+
+                        audio.play().catch(err => {
+                            console.warn('Autoplay blocked:', err);
                         });
+
+                        window.__AI_AUDIO__ = audio;
 
                         resolve({
                             text: response.data.text,
